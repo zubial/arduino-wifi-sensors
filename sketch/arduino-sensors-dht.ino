@@ -1,9 +1,6 @@
 #include <DHT.h>
 
 // Configuration
-const int CONFIG_PIN_TO_WIFI_TX = 10;
-const int CONFIG_PIN_TO_WIFI_RX = 11;
-
 const int CONFIG_PIN_TO_DHT = 2;
 const int CONFIG_DHT_TYPE = 11;
 
@@ -14,8 +11,6 @@ const int CONFIG_THRESHOLD_HUMIDITY = 5;
 DHT dhtSensor(CONFIG_PIN_TO_DHT, CONFIG_DHT_TYPE);
 
 // Variables
-bool isSended = false;
-
 String currentState = "NONE";
 float currentTemperature = 0;
 float currentHumidity = 0;
@@ -34,12 +29,6 @@ void setup() {
 
   // Open sensors
   dhtSensor.begin();
-
-  // Open Wifi Serial port
-  wifiSerial.begin(115200);
-  while (!wifiSerial) {
-    ; // Wait for connection.
-  }
 
   Serial.println("Started !");
 }
@@ -81,11 +70,10 @@ void loop() {
   if (isChange == true) {
     currentTemperature = temperature;
     currentHumidity = humidity;
+
     Serial.print((String)currentTemperature + " C, ");
     Serial.print((String)currentHumidity + " %");
     Serial.println(" (" + currentState + ") ");
-
-     isSended = false;
   }
 
   delay(2000);
